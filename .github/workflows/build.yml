@@ -28,10 +28,8 @@ jobs:
           sudo apt-get install libvlc-dev
           sudo apt-get install libvlccore-dev
           haxelib setup ~/haxelib
-          haxelib install hxcpp > /dev/null --quiet
           chmod +x ./setup/unix.sh
           sh ./setup/unix.sh
-          haxelib run lime rebuild hxcpp --quiet
 
       - name: Configure Android
         run: |

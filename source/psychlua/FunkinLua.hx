@@ -1571,10 +1571,10 @@ class FunkinLua {
 		}
 
 		try{
-			var isString:Bool = !Paths.fileExists(scriptName, TEXT);
+			var isString:Bool = !Assets.exists(scriptName, TEXT);
 			var result:Dynamic = null;
 			if(!isString)
-				result = LuaL.dofile(lua, scriptName);
+				result = LuaL.dostring(lua, Assets.getText(scriptName));
 			else
 				result = LuaL.dostring(lua, scriptName);
 
@@ -1818,16 +1818,16 @@ class FunkinLua {
 				var frag:String = folder + name + '.frag';
 				var vert:String = folder + name + '.vert';
 				var found:Bool = false;
-				if (Paths.fileExists(frag, null))
+				if (Assets.exists(frag, null))
 				{
-					frag = File.getContent(frag);
+					frag = Assets.getText(frag);
 					found = true;
 				}
 				else frag = null;
 
-				if (Paths.fileExists(vert, null))
+				if (Assets.exists(vert, null))
 				{
-					vert = File.getContent(vert);
+					vert = Assets.getText(vert);
 					found = true;
 				}
 				else vert = null;
