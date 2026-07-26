@@ -128,6 +128,14 @@
 	<!--Compiling 32bit should be better-->
 	<define name="HXCPP_M32" if="32"/>
 	
+	<!-- Mobile Shit -->
+    <section if="android">
+		<config:android permission="android.permission.ACCESS_WIFI_STATE"/>
+		<config:android permission="android.permission.CAPTURE_AUDIO_OUTPUT" />
+	
+		<certificate path="key.keystore" password="psychport" alias="psychport" alias-password="psychport" />
+    </section>
+	
 	<!--Disable deprecated warnings-->
 	<!-- <haxedef name='no-deprecation-warnings' /> -->
 
