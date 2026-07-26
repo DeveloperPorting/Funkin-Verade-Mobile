@@ -30,6 +30,7 @@ jobs:
           haxelib setup ~/haxelib
           chmod +x ./setup/unix.sh
           sh ./setup/unix.sh
+          haxelib run lime rebuild hxcpp --quiet
 
       - name: Configure Android
         run: |
