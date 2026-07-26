@@ -1,0 +1,41 @@
+name: Optimize Assets (PNG & Audio)
+
+on:
+  workflow_dispatch
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install oxipng
+        uses: taiki-e/install-action@v2
+        with:
+          tool: oxipng
+
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Optimize PNGs
+        run: oxipng -o 2 --strip safe -r .
+
+      - name: Optimize OGG Audio
+        run: |
+          find . -type f -iname "*.ogg" -print0 | xargs -0 -P 0 -I {} sh -c 'ffmpeg -i "$1" -c:a libvorbis -qscale:a 5 -f ogg -y "$1.tmp" && mv "$1.tmp" "$1"' _ {} || true
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "Optimize PNGs and Audio assets"
+          title: "Optimized Assets"
+          body: |
+            Automatically optimized images & audio files
+          branch: bot/asset-optimization
+          delete-branch: true
+          
