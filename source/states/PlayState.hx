@@ -428,17 +428,17 @@ class PlayState extends MusicBeatState
 
 		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
 		// "SCRIPTS FOLDER" SCRIPTS
-		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/'))
-			for (file in FileSystem.readDirectory(folder))
+		//for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/'))
+			for (file in AssetsUtil.readDirectoryFilter('assets/shared/scripts/'))
 			{
 				#if LUA_ALLOWED
 				if(file.toLowerCase().endsWith('.lua'))
-					new FunkinLua(folder + file);
+					new FunkinLua(file);
 				#end
 
 				#if HSCRIPT_ALLOWED
 				if(file.toLowerCase().endsWith('.hx'))
-					initHScript(folder + file);
+					initHScript(file);
 				#end
 			}
 		#end
@@ -570,17 +570,17 @@ class PlayState extends MusicBeatState
 
 		// SONG SPECIFIC SCRIPTS
 		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
-		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/songs/$songName/'))
-			for (file in FileSystem.readDirectory(folder))
+		//for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/songs/$songName/'))
+			for (file in AssetsUtil.readDirectoryFilter('assets/shared/data/songs/$songName/'))
 			{
 				#if LUA_ALLOWED
 				if(file.toLowerCase().endsWith('.lua'))
-					new FunkinLua(folder + file);
+					new FunkinLua(file);
 				#end
 
 				#if HSCRIPT_ALLOWED
 				if(file.toLowerCase().endsWith('.hx'))
-					initHScript(folder + file);
+					initHScript(file);
 				#end
 			}
 		#end
