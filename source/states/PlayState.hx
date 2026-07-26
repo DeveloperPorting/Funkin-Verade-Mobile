@@ -824,7 +824,7 @@ class PlayState extends MusicBeatState
 		canPause = forMidSong;
 
 		var fileName:String = Paths.video(name);
-		var foundFile:Bool = Paths.fileExists(fileName, null);
+		var foundFile:Bool = OpenFlAssets.exists(fileName);
 
 		if (foundFile)
 		{
