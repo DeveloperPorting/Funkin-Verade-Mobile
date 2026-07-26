@@ -25,12 +25,10 @@ jobs:
 
       - name: Install Libraries
         run: |
-          sudo apt-get install libvlc-dev
-          sudo apt-get install libvlccore-dev
           haxelib setup ~/haxelib
           chmod +x ./setup/unix.sh
           sh ./setup/unix.sh
-          haxelib run lime rebuild hxcpp --quiet
+          haxelib run lime rebuild hxcpp
 
       - name: Configure Android
         run: |
@@ -40,7 +38,7 @@ jobs:
           haxelib run lime config ANDROID_SETUP true
 
       - name: Compile
-        run: haxelib run lime build android -release
+        run: haxelib run lime build android
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v7.0.1
