@@ -535,11 +535,21 @@ private class EasterEggHandler
 
 		if (!voluntariaPathRAW.contains(voluntariaPath)) voluntariaPathRAW += voluntariaPath;
 		Paths.cacheBitmap('images/$voluntariaPath/agm/agm.png');
-		for (f in FileSystem.readDirectory(voluntariaPathRAW))
+		for (asset in Assets.list())
+		{
+			if (StringTools.startsWith(asset, voluntariaPathRAW) && StringTools.endsWith(asset.toLowerCase(), '.png'))
+			{
+				var parts = asset.split('/');
+				var fileName = parts[parts.length - 1];
+				Paths.cacheBitmap('images/$voluntariaPath/$fileName');
+			}
+		}
+		
+		/*for (f in FileSystem.readDirectory(voluntariaPathRAW))
 		{
 			if (!f.endsWith('.png')) continue;
 			Paths.cacheBitmap('images/$voluntariaPath/$f');
-		}
+		}*/
 
 		Paths.returnSound('sounds/VOLUNTARIA RS', true, false);
 		Paths.returnSound('music/ohShit', true, false);

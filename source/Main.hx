@@ -254,8 +254,10 @@ class Main extends Sprite
 		errMsg += "\nPlease report it to here if possible: https://github.com/BernardoGP4504/Funkin-Verade";
 		errMsg += "\r\n> Crash Handler written by: sqirra-rng";
 
+        #if (sys && desktop)
 		if (!FileSystem.exists("./crash/")) FileSystem.createDirectory("./crash/");
 		File.saveContent(path, '${errMsg}\n');
+		#end
 
 		Sys.println(errMsg);
 		Sys.println("Crash dump saved in " + Path.normalize(path));
