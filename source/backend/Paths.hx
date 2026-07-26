@@ -301,7 +301,7 @@ class Paths
 
 	public static function fileExists(key:String, type:AssetType, ?ignoreMods:Bool = false, ?parentFolder:String = null)
 	{
-		inline function exists(key:String, ?type:AssetType):Bool { return FileSystem.exists(key) || OpenFlAssets.exists(key); }
+		inline function exists(key:String, ?type:AssetType):Bool { return #if MODS_ALLOWED FileSystem.exists(key) || #end OpenFlAssets.exists(key); }
 
 		#if MODS_ALLOWED
 		if (!ignoreMods)
