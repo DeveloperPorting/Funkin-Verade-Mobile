@@ -1583,8 +1583,6 @@ class FunkinLua {
 				trace(resultStr);
 				#if windows
 				lime.app.Application.current.window.alert(resultStr, 'Error on lua script!');
-				#elseif android
-				extension.androidtools.Tools.showAlertDialog('Error on lua script!', resultStr, {name: 'OK', func: null});
 				#else
 				luaTrace('$scriptName\n$resultStr', true, false, FlxColor.RED);
 				#end
