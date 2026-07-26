@@ -1278,7 +1278,7 @@ class FunkinLua {
 		});
 		Lua_helper.add_callback(lua, "startVideo", function(videoFile:String, ?canSkip:Bool = true, ?forMidSong:Bool = false, ?shouldLoop:Bool = false, ?playOnLoad:Bool = true) {
 			#if VIDEOS_ALLOWED
-			if(Paths.fileExists(Paths.video(videoFile), null))
+			if(FileSystem.exists(Paths.video(videoFile)))
 			{
 				if(game.videoCutscene != null)
 				{
