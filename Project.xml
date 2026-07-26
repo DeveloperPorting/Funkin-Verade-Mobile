@@ -19,7 +19,7 @@
 	<define name="HSCRIPT_ALLOWED" 			unless="web" />
 	<define name="LUA_ALLOWED" 					unless="web" />
 	<define name="ACHIEVEMENTS_ALLOWED" />
-	<define name="DISCORD_ALLOWED"  		if="cpp" unless="mobile"/>
+	<define name="DISCORD_ALLOWED"  		if="desktop"/>
 	<define name="TRANSLATIONS_ALLOWED" unless="DEMO" />
 	<define name="VIDEOS_ALLOWED" 			if="desktop || mobile" unless="32"/>
 

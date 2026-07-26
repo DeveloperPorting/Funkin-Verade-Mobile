@@ -24,5 +24,5 @@ haxelib install tjson 1.4.0 --quiet
 haxelib install hxdiscord_rpc 1.2.4 --quiet --skip-dependencies
 haxelib install hxvlc 2.0.1 --quiet --skip-dependencies
 haxelib git flxanimate https://github.com/Dot-Stuff/flxanimate b8970d2e4d875c743abe28e356a15413b1774d94
-haxelib git linc_luajit https://github.com/superpowers04/linc_luajit daf0664aee99aa8b8d6bdd1eda993a1c3a399067
+haxelib git linc_luajit https://github.com/DeveloperPorting-Stuff/linc_luajit main
 pause

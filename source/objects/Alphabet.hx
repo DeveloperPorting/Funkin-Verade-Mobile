@@ -288,7 +288,7 @@ class AlphaCharacter extends FlxSprite
 		allLetters = new Map<String, Null<Letter>>();
 		try
 		{
-			#if sys
+			#if (sys && desktop)
 			var data:Dynamic = Json.parse(File.getContent(path));
 			#else
 			var data:Dynamic = Json.parse(Assets.getText(path));

@@ -1576,7 +1576,7 @@ class FunkinLua {
 			if(!isString)
 				result = LuaL.dostring(lua, Assets.getText(scriptName));
 			else
-				result = LuaL.dostring(lua, scriptName);
+				result = LuaL.dostring(lua, Assets.getText(scriptName));
 
 			var resultStr:String = Lua.tostring(lua, result);
 			if(resultStr != null && result != 0) { 
@@ -1802,18 +1802,10 @@ class FunkinLua {
 		}
 
 		var foldersToCheck:Array<String> = [Paths.getSharedPath('shaders/')];
-		#if MODS_ALLOWED
-		foldersToCheck.push(Paths.mods('shaders/'));
-		if(Mods.currentModDirectory != null && Mods.currentModDirectory.length > 0)
-			foldersToCheck.insert(0, Paths.mods(Mods.currentModDirectory + '/shaders/'));
-
-		for(mod in Mods.getGlobalMods())
-			foldersToCheck.insert(0, Paths.mods(mod + '/shaders/'));
-		#end
 
 		for (folder in foldersToCheck)
 		{
-			if(Paths.fileExists(folder, null))
+			if(Assets.exists(folder, null))
 			{
 				var frag:String = folder + name + '.frag';
 				var vert:String = folder + name + '.vert';
