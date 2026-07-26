@@ -5,6 +5,7 @@ import flixel.FlxObject;
 import flixel.input.keyboard.FlxKey;
 import backend.WeekData;
 import backend.Song;
+import openfl.utils.Assets;
 import flixel.util.typeLimit.NextState;
 
 private enum abstract AlignType(String) from String
