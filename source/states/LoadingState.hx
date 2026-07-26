@@ -486,19 +486,25 @@ class LoadingState extends MusicBeatState
 			var nam:String = folder.trim();
 			if (nam.endsWith('/'))
 			{
-				for (subfolder in Mods.directoriesWithFile(Paths.getSharedPath(), '$prefix/$nam'))
+				var searchPath:String = '$prefix/$nam';
+		
+				for (asset in OpenFlAssets.list())
 				{
-					for (file in FileSystem.readDirectory(subfolder))
+					if (asset.indexOf(searchPath) != -1 && StringTools.endsWith(asset.toLowerCase(), ext.toLowerCase()))
 					{
-						if (file.endsWith(ext))
+						var parts = asset.split('/');
+						var file = parts[parts.length - 1];
+		                
+						var toAdd:String = nam + haxe.io.Path.withoutExtension(file);
+						
+						if (!arr.contains(toAdd)) 
 						{
-							var toAdd:String = nam + haxe.io.Path.withoutExtension(file);
-							if (!arr.contains(toAdd)) arr.push(toAdd);
+							arr.push(toAdd);
 						}
 					}
 				}
-
-				//trace('Folder detected! ' + folder);
+		
+				//trace('Folder scanned in assets! ' + folder);
 			}
 		}
 
@@ -574,7 +580,7 @@ class LoadingState extends MusicBeatState
 		try
 		{
 			var path:String = Paths.getPath('characters/$char.json', TEXT);
-			#if (sys || desktop)
+			#if (sys && desktop)
 			var character:Dynamic = Json.parse(File.getContent(path));
 			#else
 			var character:Dynamic = Json.parse(Assets.getText(path));
@@ -630,7 +636,7 @@ class LoadingState extends MusicBeatState
 		{
 			if (Paths.fileExists(file, SOUND, !modsAllowed, path))
 			{
-				var sound:Sound = #if (sys || desktop) Sound.fromFile(file) #else OpenFlAssets.getSound(file, false) #end;
+				var sound:Sound = #if (sys && desktop) Sound.fromFile(file) #else OpenFlAssets.getSound(file, false) #end;
 				mutex.acquire();
 				Paths.currentTrackedSounds.set(file, sound);
 				mutex.release();
@@ -662,7 +668,7 @@ class LoadingState extends MusicBeatState
 				var file:String = Paths.getPath(requestKey, IMAGE);
 				if (Paths.fileExists(file, IMAGE))
 				{
-					#if (sys || desktop)
+					#if (sys && desktop)
 					var bitmap:BitmapData = BitmapData.fromFile(file);
 					#else
 					var bitmap:BitmapData = OpenFlAssets.getBitmapData(file, false);

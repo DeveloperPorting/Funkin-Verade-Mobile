@@ -160,7 +160,7 @@ class Main extends Sprite
 		final trueInitialState:InitialState = updateWarn ? () -> new states.OutdatedState(initialState) : initialState;
 		#end
 		FlxTransitionableState.skipNextTransIn = true;
-		addChild(new FlxGame(0, 0, trueInitialState, 60, 60, true, FlxG.save.data.fullscreen));
+		addChild(new FlxGame(1280, 720, trueInitialState, 60, 60, true, FlxG.save.data.fullscreen));
 		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
 
 		fpsVar = new FPSCounter(10, 3);
