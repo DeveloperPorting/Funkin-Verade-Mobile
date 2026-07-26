@@ -134,8 +134,6 @@
 		<config:android permission="android.permission.CAPTURE_AUDIO_OUTPUT" />
 	
 		<certificate path="key.keystore" password="psychport" alias="psychport" alias-password="psychport" />
-
-		<template path="art/android/gradle.properties" rename="gradle.properties" />
     </section>
 	
 	<!--Disable deprecated warnings-->
