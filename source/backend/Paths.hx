@@ -201,7 +201,7 @@ class Paths
 		final file:String = modsVideo(key);
 		if (FileSystem.exists(file)) return file;
 		#end
-		return mobile.backend.AssetsUtil.getPathVideo('assets/videos/$key.$VIDEO_EXT');
+		return AssetsUtil.getPathVideo('assets/videos/$key.$VIDEO_EXT');
 	}
 
 	public static inline function sound(key:String, ?modsAllowed:Bool = true):Sound

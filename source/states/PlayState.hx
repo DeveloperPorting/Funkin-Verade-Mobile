@@ -429,7 +429,7 @@ class PlayState extends MusicBeatState
 		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
 		// "SCRIPTS FOLDER" SCRIPTS
 		//for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/'))
-			for (file in mobile.backend.AssetsUtil.readDirectoryFilter('assets/shared/scripts/'))
+			for (file in AssetsUtil.readDirectoryFilter('assets/shared/scripts/'))
 			{
 				#if LUA_ALLOWED
 				if(file.toLowerCase().endsWith('.lua'))
@@ -571,7 +571,7 @@ class PlayState extends MusicBeatState
 		// SONG SPECIFIC SCRIPTS
 		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
 		//for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/songs/$songName/'))
-			for (file in mobile.backend.AssetsUtil.readDirectoryFilter('assets/shared/data/songs/$songName/'))
+			for (file in AssetsUtil.readDirectoryFilter('assets/shared/data/songs/$songName/'))
 			{
 				#if LUA_ALLOWED
 				if(file.toLowerCase().endsWith('.lua'))
