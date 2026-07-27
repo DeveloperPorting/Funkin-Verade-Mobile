@@ -10,12 +10,6 @@ import mobile.controls.MobileHitbox;
 class MusicBeatSubstate extends flixel.FlxSubState
 {
     public static var instance:MusicBeatSubstate;
-    
-    public function new()
-	{
-	    instance = this;
-		super();
-	}
 	
 	private var curSection:Int = 0;
 	private var stepsToDo:Int = 0;
@@ -108,6 +102,11 @@ class MusicBeatSubstate extends flixel.FlxSubState
 		removeMobileControls();
 	}
 	#end
+	
+	override function create() {
+		instance = this;
+		super.create();
+	}
 
 	override function update(elapsed:Float)
 	{
