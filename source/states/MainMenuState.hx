@@ -224,6 +224,7 @@ class MainMenuState extends MusicBeatState
 		add(psychVer);
 		
 		#if mobile
+		controls.isInSubstate = false;
 		addVirtualPad(UP_DOWN, A_B);
 		#end
 
@@ -307,8 +308,8 @@ class MainMenuState extends MusicBeatState
 		FlxG.mouse.visible = deivHitbox.visible && !controls.controllerMode;
 		final deivMouseCheck:Bool = !controls.controllerMode ? (FlxG.mouse.visible && FlxG.mouse.overlaps(deivHitbox) && FlxG.mouse.justPressed) : (controllerCursor.visible && controllerCursor.overlaps(deivHitbox) && controls.ACCEPT);
 
-		var up_p:Bool = FlxG.keys.anyJustPressed(controls.keyboardBinds['ui_up']) || FlxG.gamepads.anyJustPressed(DPAD_UP);
-		var down_p:Bool = FlxG.keys.anyJustPressed(controls.keyboardBinds['ui_down']) || FlxG.gamepads.anyJustPressed(DPAD_DOWN);
+		var up_p:Bool = FlxG.keys.anyJustPressed(controls.keyboardBinds['ui_up']) || FlxG.gamepads.anyJustPressed(DPAD_UP) #if mobile || virtualPad.buttonUp.justPressed #end;
+		var down_p:Bool = FlxG.keys.anyJustPressed(controls.keyboardBinds['ui_down']) || FlxG.gamepads.anyJustPressed(DPAD_DOWN) #if mobile || virtualPad.buttonDown.justPressed #end;
 		if (up_p || down_p)
 		{
 			FlxG.sound.play(Paths.sound('scrollMenu'));

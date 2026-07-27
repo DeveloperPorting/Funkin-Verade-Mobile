@@ -35,6 +35,67 @@ class GalleryState extends MusicBeatState
 		var i:Int = 0;
 		var l:Int = 0;
 
+        #if mobile
+		var searchDir:String = dir.endsWith('/') ? dir : dir + '/';
+		
+		var folderAssets:Map<String, Array<String>> = new Map();
+		var categoriesList:Array<String> = [];
+		
+		for (asset in openfl.utils.Assets.list())
+		{
+			var idx = asset.indexOf(searchDir);
+			if (idx != -1)
+			{
+				var afterDir = asset.substring(idx + searchDir.length);
+				var parts = afterDir.split('/');
+		
+				if (parts.length >= 2)
+				{
+					var folderName = parts[0];
+					var subfile = parts[parts.length - 1];
+		
+					if (folderName == "menu") continue;
+		
+					if (!folderAssets.exists(folderName))
+					{
+						folderAssets.set(folderName, []);
+						categoriesList.push(folderName);
+					}
+		
+					folderAssets.get(folderName).push(subfile);
+				}
+			}
+		}
+		
+		for (folder in categoriesList)
+		{
+			categories.push(folder);
+			if (list.length < (i + 1)) list[i] = [];
+			if (images.length < (i + 1)) images[i] = [];
+		
+			var filesInFolder = folderAssets.get(folder);
+		
+			for (subfile in filesInFolder)
+			{
+				if (StringTools.endsWith(subfile.toLowerCase(), '.png'))
+				{
+					Paths.cacheBitmap('images/gallery/$folder/$subfile');
+					continue;
+				}
+		
+				if (!StringTools.endsWith(subfile.toLowerCase(), '.json')) continue;
+				
+				final subfileName:String = subfile.substr(0, subfile.lastIndexOf("."));
+		
+				var info:ImageInfo = Json.parse(Paths.getTextFromFile('$dir$folder/$subfile'));
+				info.displayName ??= '$subfileName.png';
+				info.__imagePath = 'gallery/$folder/$subfileName';
+				list[i].push(info);
+				l++;
+			}
+			i++;
+		}
+        #else
 		// BerGP - Quero muito me matar por ter feito esse código
 		// TODO: Fazer esse código ser visualmente mais limpo
 		for (folder in FileSystem.readDirectory(dir))
@@ -64,6 +125,7 @@ class GalleryState extends MusicBeatState
 			}
 			i++;
 		}
+		#end
 
 		curSelected = FlxMath.wrap(curSelected, 0, l);
 		curCategory = FlxMath.wrap(curCategory, 0, categories.length - 1);
