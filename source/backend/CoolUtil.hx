@@ -91,7 +91,7 @@ class CoolUtil
 	}
 
 	inline public static function openFolder(folder:String, absolute:Bool = false) {
-		#if sys
+		#if (sys && desktop)
 			if(!absolute) folder =  Sys.getCwd() + '$folder';
 
 			folder = folder.replace('/', '\\');

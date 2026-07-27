@@ -55,19 +55,51 @@ class Stickerlings extends flixel.FlxSubState
 		final stickerSoundsDir:String = 'stickers/';
 		final soundsDir:String = Paths.getSharedPath('sounds/$stickerSoundsDir');
 
-		for (f in FileSystem.readDirectory(soundsDir))
+		var baseDir:String = soundsDir.endsWith('/') ? soundsDir : soundsDir + '/';
+		
+		for (asset in openfl.utils.Assets.list())
 		{
-			if (!FileSystem.isDirectory('$soundsDir$f')) continue;
-			soundFolders.push(f);
+			var idx = asset.indexOf(baseDir);
+			if (idx != -1)
+			{
+				var relativePath:String = asset.substring(idx + baseDir.length);
+				var slashIndex = relativePath.indexOf('/');
+				
+				if (slashIndex != -1)
+				{
+					var folderName:String = relativePath.substring(0, slashIndex);
+					
+					if (!soundFolders.contains(folderName))
+					{
+						soundFolders.push(folderName);
+					}
+				}
+			}
 		}
-
-		final pickedFolder:String = '${FlxG.random.getObject(soundFolders)}/';
-		for (s in FileSystem.readDirectory('$soundsDir$pickedFolder'))
+		
+		if (soundFolders.length > 0)
 		{
-			if (FileSystem.isDirectory('$soundsDir$pickedFolder$s') || !s.endsWith('.${Paths.SOUND_EXT}')) continue;
-
-			final soundName:String = '$stickerSoundsDir$pickedFolder${s.replace('.${Paths.SOUND_EXT}', "")}';
-			possibleSounds.push(Paths.sound(soundName));
+			final pickedFolder:String = '${FlxG.random.getObject(soundFolders)}/';
+			var searchPickedDir:String = baseDir + pickedFolder;
+			var soundExt:String = '.' + Paths.SOUND_EXT;
+		
+			for (asset in openfl.utils.Assets.list())
+			{
+				var idx = asset.indexOf(searchPickedDir);
+				
+				if (idx != -1 && StringTools.endsWith(asset.toLowerCase(), soundExt.toLowerCase()))
+				{
+					var relativePath:String = asset.substring(idx + searchPickedDir.length);
+					
+					if (relativePath.indexOf('/') == -1)
+					{
+						var fileName:String = relativePath.substring(0, relativePath.length - soundExt.length);
+						
+						final soundName:String = '$stickerSoundsDir$pickedFolder$fileName';
+						possibleSounds.push(Paths.sound(soundName));
+					}
+				}
+			}
 		}
 
 		for (s in stickerPack.stickers) Paths.avoidDumping(Paths.getPath('images/$s.png', IMAGE));
