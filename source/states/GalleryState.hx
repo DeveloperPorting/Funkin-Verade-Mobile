@@ -86,7 +86,7 @@ class GalleryState extends MusicBeatState
 				
 				final subfileName:String = subfile.substr(0, subfile.lastIndexOf("."));
 		
-				var info:ImageInfo = Json.parse(openfl.utils.Assets.getText('$dir$folder/$subfile'));
+				var info:ImageInfo = Json.parse(Paths.getTextFromFile('$dir$folder/$subfile'));
 				info.displayName ??= '$subfileName.png';
 				info.__imagePath = 'gallery/$folder/$subfileName';
 				list[i].push(info);
