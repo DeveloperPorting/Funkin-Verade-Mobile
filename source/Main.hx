@@ -16,6 +16,10 @@ import openfl.display.StageScaleMode;
 import lime.app.Application;
 import states.TitleState;
 
+#if mobile
+import mobile.backend.MobileUtil;
+#end
+
 #if HSCRIPT_ALLOWED
 import crowplexus.iris.Iris;
 import psychlua.HScript.HScriptInfos;
@@ -59,6 +63,13 @@ class Main extends Sprite
 		super();
 
 		#if (cpp && windows) backend.Native.fixScaling(); #end
+		
+		#if mobile
+		FlxG.signals.preUpdate.add(function() 
+		{
+			MobileUtil.updateInputMethod();
+		});
+		#end
 
 		FlxG.save.bind('funkin', CoolUtil.getSavePath());
 		Highscore.load();
