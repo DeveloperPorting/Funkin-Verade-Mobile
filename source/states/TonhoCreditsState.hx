@@ -3,6 +3,7 @@ package states;
 import objects.GamepadCursor;
 import objects.AttachedSprite;
 import flixel.group.FlxContainer.FlxTypedContainer;
+import openfl.utils.Assets;
 
 private typedef CredEntry =
 {
@@ -143,7 +144,7 @@ class TonhoCreditsState extends MusicBeatState
 
 	public function new()
 	{
-		creds = haxe.Json.parse(Paths.getTextFromFile('data/menus/credits.json'));
+		creds = haxe.Json.parse(Assets.getText('data/menus/credits.json'));
 		curSelected = FlxMath.wrap(curSelected, 0, creds.length - 1);
 
 		firstChange = true;

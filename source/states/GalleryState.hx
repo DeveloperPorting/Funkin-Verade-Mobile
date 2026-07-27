@@ -35,7 +35,6 @@ class GalleryState extends MusicBeatState
 		var i:Int = 0;
 		var l:Int = 0;
 
-        #if mobile
 		var searchDir:String = dir.endsWith('/') ? dir : dir + '/';
 		
 		var folderAssets:Map<String, Array<String>> = new Map();
@@ -87,7 +86,7 @@ class GalleryState extends MusicBeatState
 				
 				final subfileName:String = subfile.substr(0, subfile.lastIndexOf("."));
 		
-				var info:ImageInfo = Json.parse(Paths.getTextFromFile('$dir$folder/$subfile'));
+				var info:ImageInfo = Json.parse(openfl.utils.Assets.getText('$dir$folder/$subfile'));
 				info.displayName ??= '$subfileName.png';
 				info.__imagePath = 'gallery/$folder/$subfileName';
 				list[i].push(info);
@@ -95,37 +94,6 @@ class GalleryState extends MusicBeatState
 			}
 			i++;
 		}
-        #else
-		// BerGP - Quero muito me matar por ter feito esse código
-		// TODO: Fazer esse código ser visualmente mais limpo
-		for (folder in FileSystem.readDirectory(dir))
-		{
-			if (!FileSystem.isDirectory('$dir$folder') || folder == "menu") continue;
-
-			categories.push(folder);
-			if (list.length < (i + 1)) list[i] = [];
-			if (images.length < (i + 1)) images[i] = [];
-
-			for (subfile in FileSystem.readDirectory('$dir$folder/'))
-			{
-				if (subfile.endsWith('.png'))
-				{
-					Paths.cacheBitmap('images/gallery/$folder/$subfile');
-					continue;
-				}
-
-				if (!subfile.endsWith('.json')) continue;
-				final subfileName:String = subfile.substr(0, subfile.lastIndexOf("."));
-
-				var info:ImageInfo = Json.parse(Paths.getTextFromFile('$dir$folder/$subfile'));
-				info.displayName ??= '$subfileName.png';
-				info.__imagePath = 'gallery/$folder/$subfileName';
-				list[i].push(info);
-				l++;
-			}
-			i++;
-		}
-		#end
 
 		curSelected = FlxMath.wrap(curSelected, 0, l);
 		curCategory = FlxMath.wrap(curCategory, 0, categories.length - 1);
