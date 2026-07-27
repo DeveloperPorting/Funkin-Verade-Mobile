@@ -434,14 +434,17 @@
 		"doings": "Fez o Port Mobile do mod",
 		"frameChar": "azedo",
 		"socials": [
-			{ "link": "StarNovaBR", "social": "twitter" },
+			{
+                "link": "StarNovaBR",
+                "social": "twitter"
+            },
 			{
 				"display": "StarNova",
 				"link": "StarNovaOficial",
 				"social": "yt"
 			}
 		],
-		"quote": "Sou o maior inimigo do FileSystem"
+		"quote": "Eu espero que seu celular da Barbie consiga rodar esse mod"
 	},
 	{
 		"name": "s0fia._",
