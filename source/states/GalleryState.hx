@@ -173,6 +173,10 @@ class GalleryState extends MusicBeatState
 		arrowUp.active = false;
 		arrowUp.antialiasing = true;
 		add(arrowUp);
+		
+		#if mobile
+		addVirtualPad(LEFT_FULL, A_B);
+		#end
 
 		changeCategory(0);
 	}

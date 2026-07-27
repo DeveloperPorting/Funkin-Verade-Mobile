@@ -222,6 +222,10 @@ class MainMenuState extends MusicBeatState
 		psychVer.active = false;
 		psychVer.antialiasing = true;
 		add(psychVer);
+		
+		#if mobile
+		addVirtualPad(UP_DOWN, A_B);
+		#end
 
 		changeItem(0);
 		beatHit(); // Em caso de vc entrar no menu sem a música tar na batida, pelo menos um bop vai ocorrer. De nada :3 	-@BernardoGP4504

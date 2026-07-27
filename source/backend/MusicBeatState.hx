@@ -4,8 +4,17 @@ import flixel.FlxSubState;
 import flixel.FlxState;
 import backend.PsychCamera;
 
+#if mobile
+import flixel.group.FlxGroup;
+import flixel.util.FlxDestroyUtil;
+import mobile.controls.MobileHitbox;
+import mobile.controls.MobileVirtualPad;
+#end
+
 class MusicBeatState extends flixel.addons.transition.FlxTransitionableState
 {
+    public static var instance:MusicBeatState;
+    
 	private var curSection:Int = 0;
 	private var stepsToDo:Int = 0;
 
@@ -19,6 +28,82 @@ class MusicBeatState extends flixel.addons.transition.FlxTransitionableState
 	{
 		return Controls.instance;
 	}
+	
+	#if mobile
+	public var hitbox:MobileHitbox;
+	public var virtualPad:MobileVirtualPad;
+
+	public var virtualPadCam:FlxCamera;
+	public var hitboxCam:FlxCamera;
+
+    public function addVirtualPad(DPad:MobileDPadMode, Action:MobileActionMode)
+	{
+		virtualPad = new MobileVirtualPad(DPad, Action);
+		add(virtualPad);
+	}
+	
+	public function addVirtualPadCamera(DefaultDrawTarget:Bool = false)
+	{
+		if (virtualPad != null)
+		{
+			virtualPadCam = new FlxCamera();
+			virtualPadCam.bgColor.alpha = 0;
+			FlxG.cameras.add(virtualPadCam, DefaultDrawTarget);
+			
+			virtualPad.cameras = [virtualPadCam];
+		}
+	}
+
+	public function removeVirtualPad()
+	{
+		if (virtualPad != null)
+		{
+			remove(virtualPad);
+			virtualPad = FlxDestroyUtil.destroy(virtualPad);
+		}
+
+		if(virtualPadCam != null)
+		{
+			FlxG.cameras.remove(virtualPadCam);
+			virtualPadCam = FlxDestroyUtil.destroy(virtualPadCam);
+		}
+	}
+
+	public function addMobileControls(DefaultDrawTarget:Bool = false)
+	{
+		hitbox = new MobileHitbox();
+
+		hitboxCam = new FlxCamera();
+		hitboxCam.bgColor.alpha = 0;
+		FlxG.cameras.add(hitboxCam, DefaultDrawTarget);
+
+		hitbox.cameras = [hitboxCam];
+		hitbox.visible = false;
+		add(hitbox);
+	}
+
+	public function removeMobileControls()
+	{
+		if (hitbox != null)
+		{
+			remove(hitbox);
+			hitbox = FlxDestroyUtil.destroy(hitbox);
+		}
+
+		if(hitboxCam != null)
+		{
+			FlxG.cameras.remove(hitboxCam);
+			hitboxCam = FlxDestroyUtil.destroy(hitboxCam);
+		}
+	}
+
+	override function destroy()
+    {
+        super.destroy();
+		removeVirtualPad();
+		removeMobileControls();
+	}
+	#end
 
 	var _psychCameraInitialized:Bool = false;
 
@@ -33,6 +118,7 @@ class MusicBeatState extends flixel.addons.transition.FlxTransitionableState
 
 	override function create()
 	{
+	     instance = this;
 		#if MODS_ALLOWED Mods.updatedOnState = false; #end
 		#if ACHIEVEMENTS_ALLOWED
 		@:privateAccess if (Achievements.achievementsUnlocked.length == (Achievements._originalLength - 1))

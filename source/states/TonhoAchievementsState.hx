@@ -132,6 +132,10 @@ class TonhoAchievementsState extends MusicBeatState
 		globalAchieveProgressTxt.x = (bg.x + ((bg.width / 2) - (globalAchieveProgressTxt.width / 2))) + (MAGIC_MARGIN * 4);
 		globalAchieveProgressTxt.antialiasing = true;
 		add(globalAchieveProgressTxt);
+		
+		#if mobile
+		addVirtualPad(LEFT_FULL, A_B);
+		#end
 
 		changeSelection(0);
 		selectionSpr.x = (achieveText.x + (achieveText.width / 2)) - (selectionSpr.width / 2);

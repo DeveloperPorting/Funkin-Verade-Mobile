@@ -551,6 +551,11 @@ class PlayState extends MusicBeatState
 		uiGroup.cameras = [camHUD];
 		noteGroup.cameras = [camHUD];
 		comboGroup.cameras = [camHUD];
+		
+		#if mobile
+		addMobileControls(false);
+	    hitbox.visible = false;
+		#end
 
 		#if LUA_ALLOWED
 		for (notetype in noteTypes)
@@ -939,6 +944,10 @@ class PlayState extends MusicBeatState
 			callOnScripts('onStartCountdown');
 			return;
 		}
+		
+		#if mobile
+		hitbox.visible = true;
+		#end
 
 		seenCutscene = true;
 		inCutscene = false;
@@ -1572,6 +1581,7 @@ class PlayState extends MusicBeatState
 	override function openSubState(SubState:FlxSubState)
 	{
 		stagesFunc(function(stage:BaseStage) stage.openSubState(SubState));
+		#if mobile controls.isInSubstate = true; #end
 		if (paused)
 		{
 			if (FlxG.sound.music != null)
@@ -1594,6 +1604,7 @@ class PlayState extends MusicBeatState
 		super.closeSubState();
 
 		stagesFunc(function(stage:BaseStage) stage.closeSubState());
+		#if mobile controls.isInSubstate = false; #end
 		if (paused)
 		{
 			if (FlxG.sound.music != null && !startingSong && canResync)
@@ -1684,7 +1695,7 @@ class PlayState extends MusicBeatState
 			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);
 		}
 
-		if (controls.PAUSE && canPause && startedCountdown)
+		if (controls.PAUSE #if android || FlxG.android.justReleased.BACK #end && canPause && startedCountdown)
 		{
 			var ret:Dynamic = callOnScripts('onPause', null, true);
 			if(ret != LuaUtils.Function_Stop) {
@@ -2364,6 +2375,10 @@ class PlayState extends MusicBeatState
 			if (doDeathCheck()) return false;
 		}
 
+        #if mobile
+		hitbox.visible = false;
+		#end
+		
 		timeBar.visible = false;
 		timeTxt.visible = false;
 		canPause = false;

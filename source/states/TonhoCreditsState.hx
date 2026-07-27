@@ -330,6 +330,11 @@ class TonhoCreditsState extends MusicBeatState
 		add(controllerCursor);
 
 		camFollow.x = FlxG.width - portraitGroup.members[0].width;
+		
+		#if mobile
+		addVirtualPad(UP_DOWN, A_B);
+		#end
+		
 		changeSelection(0);
 		camera.snapToTarget();
 	}

@@ -71,6 +71,11 @@ class GameOverSubstate extends MusicBeatSubstate
 			boyfriend?.playAnim('deathLoop');
 			FlxG.sound.music.play(true);
 		});
+		
+		#if mobile
+		addVirtualPad(NONE, A_B);
+		addVirtualPadCamera();
+		#end
 
 		camFollow.setPosition(boyfriend.getMidpoint().x - boyfriend.cameraPosition[0], boyfriend.getMidpoint().y + boyfriend.cameraPosition[1]);
 		FlxG.sound.music.loadEmbedded(Paths.music(loopSoundName), true);

@@ -55,15 +55,29 @@ class OptionsState extends MusicBeatState
 		add(selectorRight);
 
 		changeSelection(0);
+		#if mobile
+		addVirtualPad(UP_DOWN, A_B);
+		#end
 		ClientPrefs.saveSettings();
 		super.create();
 	}
 
-	override function closeSubState()
-	{
+	override function closeSubState() {
 		super.closeSubState();
+		#if mobile
+		new FlxTimer().start(0.1, function(tmr:FlxTimer) {
+			controls.isInSubstate = false;
+		});
+		#end
 		ClientPrefs.saveSettings();
-		#if DISCORD_ALLOWED DiscordClient.changePresence("Options Menu"); #end
+		#if DISCORD_ALLOWED
+		DiscordClient.changePresence("Options Menu", null);
+		#end
+		
+		#if mobile
+		removeVirtualPad();
+		addVirtualPad(UP_DOWN, A_B);
+		#end
 	}
 
 	override function update(elapsed:Float)

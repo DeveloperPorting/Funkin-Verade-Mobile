@@ -61,6 +61,7 @@ class FPSCounter extends TextField
 
 		currentFPS = times.length < FlxG.updateFramerate ? times.length : FlxG.updateFramerate;		
 		updateText();
+		#if mobile setScale(); #end
 		deltaTimeout = 0;
 	}
 
@@ -71,6 +72,24 @@ class FPSCounter extends TextField
 
 		textColor = currentFPS >= (FlxG.drawFramerate * 0.5) ? 0xFFFFFFFF : 0xFFFF0000;
 	}
+	
+	#if mobile
+	public inline function setScale(?scale:Float):Void {
+	    if (scale == null) {
+	        var screenW:Float = FlxG.stage.window.width;
+	        var screenH:Float = FlxG.stage.window.height;
+	        scale = Math.min(screenW / FlxG.width, screenH / FlxG.height);
+	    }
+	
+	    #if android
+	        var finalScale:Float = (scale > 1) ? scale : 1;
+	    #else
+	        var finalScale:Float = (scale < 1 ? scale : 1);
+	    #end
+	
+	    scaleX = scaleY = finalScale;
+	}
+	#end
 
 	inline function get_memoryMegas():Float
 		return cpp.vm.Gc.memInfo64(cpp.vm.Gc.MEM_INFO_USAGE);

@@ -143,6 +143,11 @@ class TonhoPauseSubstate extends MusicBeatSubstate
 		pauseTxt.screenCenter(Y);
 		pauseTxt.active = false;
 		add(pauseTxt);
+		
+		#if mobile
+		addVirtualPad(UP_DOWN, A_B);
+		addVirtualPadCamera();
+		#end
 
 		changeSelection(0);
 	}	
