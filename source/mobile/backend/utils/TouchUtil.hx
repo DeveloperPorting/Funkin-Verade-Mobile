@@ -71,7 +71,7 @@ class TouchUtil
 	{
 		for (swipe in FlxG.swipes) 
 		{
-			if (swipe.angle >= min && swipe.angle <= max) return true;
+			if (swipe.degrees >= min && swipe.degrees <= max) return true;
 		}
 		return false;
 	}
