@@ -134,7 +134,7 @@ class TonhoAchievementsState extends MusicBeatState
 		add(globalAchieveProgressTxt);
 		
 		#if mobile
-		addVirtualPad(LEFT_FULL, A_B);
+		addVirtualPad(LEFT_FULL, B);
 		#end
 
 		changeSelection(0);

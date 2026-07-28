@@ -1,5 +1,9 @@
 package options;
 
+#if mobile
+import mobile.controls.MobileVirtualPad.MobileDPadMode;
+import mobile.controls.MobileVirtualPad.MobileActionMode;
+#end
 import flixel.input.keyboard.FlxKey;
 import flixel.input.gamepad.FlxGamepad;
 import flixel.input.gamepad.FlxGamepadInputID;
@@ -25,6 +29,11 @@ class BaseOptionsMenu extends MusicBeatSubstate
 
 	public var title:String;
 	public var rpcTitle:String;
+	#if mobile
+	// Não que algum menu precise, mas já que td nesse menu é personalizável ent tá
+	public var dpadLayout:MobileDPadMode;
+	public var actLayout:MobileActionMode;
+	#end
 
 	public var bg:FlxSprite;
 	public function new()
@@ -32,6 +41,10 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		super();
 		title ??= 'Options';
 		rpcTitle ??= 'Options Menu';
+		#if mobile
+		dpadLayout ??= LEFT_FULL;
+		actLayout ??= A_B;
+		#end
 		#if DISCORD_ALLOWED DiscordClient.changePresence(rpcTitle, null); #end
 		
 		bg = new FlxSprite().loadGraphic(Paths.image('menuBG'));
@@ -99,7 +112,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		
 		#if mobile
 		controls.isInSubstate = true;
-		addVirtualPad(LEFT_FULL, A_B);
+		addVirtualPad(dpadLayout, actLayout);
 		#end
 
 		changeSelection();

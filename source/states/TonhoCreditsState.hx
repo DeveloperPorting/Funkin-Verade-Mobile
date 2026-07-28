@@ -4,6 +4,7 @@ import objects.GamepadCursor;
 import objects.AttachedSprite;
 import flixel.group.FlxContainer.FlxTypedContainer;
 import openfl.utils.Assets;
+import mobile.backend.utils.TouchUtil;
 
 private typedef CredEntry =
 {
@@ -79,7 +80,7 @@ private class SocialMedia
 		return switch (social)
 		{
 			case SocialMediaType.TWITTER: 'x.com/${_data.link}';
-			case SocialMediaType.DISCORD: 'discord://-/users/${_data.link}'; // Abre no app do Discord, se possível
+			case SocialMediaType.DISCORD: #if !mobile 'discord://-/users/${_data.link}' #else 'discord.com/users/${_data.link}' #end; // Abre no app do Discord, se possível
 			case SocialMediaType.YT: 'youtube.com/@${_data.link}';
 			case SocialMediaType.NG: '${_data.link}.newgrounds.com';
 			case SocialMediaType.BSKY: 'bsky.app/profile/${_data.link}';
@@ -333,9 +334,8 @@ class TonhoCreditsState extends MusicBeatState
 		camFollow.x = FlxG.width - portraitGroup.members[0].width;
 		
 		#if mobile
-		addVirtualPad(UP_DOWN, A_B);
+		addVirtualPad(NONE, B);
 		#end
-		
 		changeSelection(0);
 		camera.snapToTarget();
 	}
@@ -356,8 +356,8 @@ class TonhoCreditsState extends MusicBeatState
 		controllerCursor.visible = controls.controllerMode;
 		FlxG.mouse.visible = !controls.controllerMode;
 
-		var up_p:Bool = FlxG.keys.anyJustPressed(controls.keyboardBinds['ui_up']) || FlxG.gamepads.anyJustPressed(DPAD_UP) #if mobile || virtualPad.buttonUp.justPressed #end;
-		var down_p:Bool = FlxG.keys.anyJustPressed(controls.keyboardBinds['ui_down']) || FlxG.gamepads.anyJustPressed(DPAD_DOWN) #if mobile || virtualPad.buttonDown.justPressed #end;
+		var up_p:Bool = FlxG.keys.anyJustPressed(controls.keyboardBinds['ui_up']) || FlxG.gamepads.anyJustPressed(DPAD_UP) || TouchUtil.swipeDown;
+		var down_p:Bool = FlxG.keys.anyJustPressed(controls.keyboardBinds['ui_down']) || FlxG.gamepads.anyJustPressed(DPAD_DOWN) || TouchUtil.swipeUp;
 		if (up_p || down_p)
 		{
 			FlxG.sound.play(Paths.sound('scrollMenu'));

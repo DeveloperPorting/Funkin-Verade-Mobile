@@ -80,7 +80,7 @@ description_discordRPC: "Unchecking this hides the Discord \"Playing\" box of th
 
 delay_beat_hit: "Beat Hit!"
 delay_current_offset: "Current offset: {1}MS"
-delay_shiftTip: "Hold SHIFT or {1} to offset 3x faster!"
+delay_shiftTip: "Hold {1} or {2} to offset 3x faster!"
 
 pause_resume: "Resume"
 pause_restart: "Restart"

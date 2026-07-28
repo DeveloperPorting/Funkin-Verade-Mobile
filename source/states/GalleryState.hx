@@ -1,5 +1,6 @@
 package states;
 
+import mobile.backend.utils.TouchUtil;
 import haxe.Json;
 
 private typedef ImageInfo =
@@ -205,16 +206,15 @@ class GalleryState extends MusicBeatState
 		add(arrowUp);
 		
 		#if mobile
-		addVirtualPad(LEFT_FULL, A_B);
+		addVirtualPad(NONE, B);
 		#end
-
 		changeCategory(0);
 	}
 
 	override function update(elapsed:Float)
 	{
 		var left:Bool = false;
-		if ((left = controls.UI_LEFT_P) || controls.UI_RIGHT_P)
+		if ((left = controls.UI_LEFT_P || TouchUtil.swipeRight) || (controls.UI_RIGHT_P || TouchUtil.swipeLeft))
 		{
 			FlxG.sound.play(Paths.sound("scrollMenu"));
 			changeSelection(left ? -1 : 1);
@@ -222,7 +222,7 @@ class GalleryState extends MusicBeatState
 		}
 
 		var up:Bool = false;
-		if ((up = controls.UI_UP_P) || controls.UI_DOWN_P)
+		if ((up = controls.UI_UP_P || TouchUtil.swipeDown) || (controls.UI_DOWN_P || TouchUtil.swipeUp))
 		{
 			FlxG.sound.play(Paths.sound("scrollMenu"));
 			changeCategory(up ? -1 : 1);

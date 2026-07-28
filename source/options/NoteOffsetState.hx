@@ -91,7 +91,8 @@ class NoteOffsetState extends MusicBeatState
 		timeTxt.active = false;
 		add(timeTxt);
 
-		final tipTxt:String = Language.getPhrase('delay_shiftTip', 'Segure SHIFT ou {1} para mexer no atraso 3x mais rápido!', [backend.InputFormatter.getGamepadName(LEFT_SHOULDER)]);
+		final shiftKey:String = #if mobile 'C' #else 'SHIFT' #end;
+		final tipTxt:String = Language.getPhrase('delay_shiftTip', 'Segure {1} ou {2} para mexer no atraso 3x mais rápido!', [shiftKey, backend.InputFormatter.getGamepadName(LEFT_SHOULDER)]);
 		final tip:FlxText = new FlxText(0, 12, 0, '$tipTxt\n');
 		tip.setFormat(timeTxt.font, 24, FlxColor.WHITE, RIGHT);
 		tip.setBorderStyle(OUTLINE_FAST, FlxColor.BLACK, 2);
@@ -103,12 +104,18 @@ class NoteOffsetState extends MusicBeatState
 		add(tip);
 
 		updateNoteDelay();
+		#if mobile
+		addVirtualPad(LEFT_RIGHT, A_B_C);
+		@:privateAccess virtualPad.insert(virtualPad.members.indexOf(virtualPad.buttonC), virtualPad.buttonX = virtualPad.createButton(FlxG.width - 510, FlxG.height - 135, 'x', 0x00D0FF, [X])); // Te amo @StarNovaBR -@BernardoGP4504
+
+		addVirtualPadCamera();
+		#end
 		super.create();
 	}
 
 	override function update(elapsed:Float)
 	{
-		final addNum:Int = (FlxG.keys.pressed.SHIFT || FlxG.gamepads.anyPressed(LEFT_SHOULDER)) ? 3 : 1;
+		final addNum:Int = (FlxG.keys.pressed.SHIFT || FlxG.gamepads.anyPressed(LEFT_SHOULDER) #if mobile || virtualPad.buttonC.pressed #end) ? 3 : 1;
 
 		if (controls.UI_LEFT_P)
 		{
@@ -137,7 +144,7 @@ class NoteOffsetState extends MusicBeatState
 			updateNoteDelay();
 		}
 
-		if (controls.RESET)
+		if (controls.RESET #if mobile || virtualPad.buttonX.justPressed #end)
 		{
 			holdTime = 0;
 			barPercent = 0;
