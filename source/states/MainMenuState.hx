@@ -51,6 +51,7 @@ class MainMenuState extends MusicBeatState
 
 	var selectedSomethin:Bool = false;
 	var selectionShit:Map<Int, Array<String>> = [];
+	var usingController:Bool = false;
 	var controllerCursor:GamepadCursor;
 	var lastMousePos:FlxPoint = new FlxPoint();
 	var curMousePos:FlxPoint = new FlxPoint();
@@ -301,12 +302,12 @@ class MainMenuState extends MusicBeatState
 		if (FlxG.sound.music?.playing) Conductor.songPosition = FlxG.sound.music.time;
 		FlxG.mouse.getGamePosition(curMousePos);
 
-		if (FlxG.gamepads.anyInput()) controls.controllerMode = true;
-		else if (FlxG.keys.justPressed.ANY || (!CoolUtil.pointsAreEqual(curMousePos, lastMousePos) || FlxG.mouse.justPressed)) controls.controllerMode = false;
+		if (FlxG.gamepads.anyInput()) usingController = true;
+		else if (FlxG.keys.justPressed.ANY || (!CoolUtil.pointsAreEqual(curMousePos, lastMousePos) || FlxG.mouse.justPressed)) usingController = false;
 
-		controllerCursor.visible = deivHitbox.visible && controls.controllerMode;
-		FlxG.mouse.visible = deivHitbox.visible && !controls.controllerMode;
-		final deivMouseCheck:Bool = !controls.controllerMode ? (FlxG.mouse.visible && FlxG.mouse.overlaps(deivHitbox) && FlxG.mouse.justPressed) : (controllerCursor.visible && controllerCursor.overlaps(deivHitbox) && controls.ACCEPT);
+		controllerCursor.visible = deivHitbox.visible && usingController;
+		FlxG.mouse.visible = deivHitbox.visible && !usingController;
+		final deivMouseCheck:Bool = !usingController ? (FlxG.mouse.visible && FlxG.mouse.overlaps(deivHitbox) && FlxG.mouse.justPressed) : (controllerCursor.visible && controllerCursor.overlaps(deivHitbox) && controls.ACCEPT);
 
 		var up_p:Bool = FlxG.keys.anyJustPressed(controls.keyboardBinds['ui_up']) || FlxG.gamepads.anyJustPressed(DPAD_UP) #if mobile || virtualPad.buttonUp.justPressed #end;
 		var down_p:Bool = FlxG.keys.anyJustPressed(controls.keyboardBinds['ui_down']) || FlxG.gamepads.anyJustPressed(DPAD_DOWN) #if mobile || virtualPad.buttonDown.justPressed #end;
@@ -322,7 +323,7 @@ class MainMenuState extends MusicBeatState
 			MusicBeatState.customTransClass = prevTransition;
 			FlxG.switchState(() -> new TitleState());
 		}
-		if (controls.ACCEPT && (!controls.controllerMode || !deivMouseCheck)) chooseItem();
+		if (controls.ACCEPT && (!usingController || !deivMouseCheck)) chooseItem();
 
 		#if debug
 		if (FlxG.keys.justPressed.F5) FlxG.resetState();

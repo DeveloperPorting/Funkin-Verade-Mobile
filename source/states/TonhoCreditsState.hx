@@ -114,6 +114,7 @@ class TonhoCreditsState extends MusicBeatState
 	static var firstChange:Bool = true;
 
 	var blockInput:Bool;
+	var usingController:Bool = false;
 	var controllerCursor:GamepadCursor;
 	var lastMousePos:FlxPoint = new FlxPoint();
 	var curMousePos:FlxPoint = new FlxPoint();
@@ -349,12 +350,12 @@ class TonhoCreditsState extends MusicBeatState
 		}
 		FlxG.mouse.getGamePosition(curMousePos);
 
-		if (FlxG.gamepads.anyInput()) controls.controllerMode = true;
-		else if (FlxG.keys.justPressed.ANY || (!CoolUtil.pointsAreEqual(curMousePos, lastMousePos) || FlxG.mouse.justPressed)) controls.controllerMode = false;
-		// FlxG.watch.addQuick("controllerMode", controls.controllerMode);
+		if (FlxG.gamepads.anyInput()) usingController = true;
+		else if (FlxG.keys.justPressed.ANY || (!CoolUtil.pointsAreEqual(curMousePos, lastMousePos) || FlxG.mouse.justPressed)) usingController = false;
+		// FlxG.watch.addQuick("controllerMode", usingController);
 
-		controllerCursor.visible = controls.controllerMode;
-		FlxG.mouse.visible = !controls.controllerMode;
+		controllerCursor.visible = usingController;
+		FlxG.mouse.visible = !usingController;
 
 		var up_p:Bool = FlxG.keys.anyJustPressed(controls.keyboardBinds['ui_up']) || FlxG.gamepads.anyJustPressed(DPAD_UP) || TouchUtil.swipeDown;
 		var down_p:Bool = FlxG.keys.anyJustPressed(controls.keyboardBinds['ui_down']) || FlxG.gamepads.anyJustPressed(DPAD_DOWN) || TouchUtil.swipeUp;
@@ -377,15 +378,15 @@ class TonhoCreditsState extends MusicBeatState
 
 		if (social1 != null && social1.visible)
 		{
-			social1.underline = !controls.controllerMode ? FlxG.mouse.overlaps(social1) : controllerCursor.overlaps(social1);
+			social1.underline = !usingController ? FlxG.mouse.overlaps(social1) : controllerCursor.overlaps(social1);
 			social1.color = social1.underline ? 0xFFFFC857 : 0xFFEA2D1F;
-			if (social1.underline && (!controls.controllerMode ? FlxG.mouse.justPressed : controls.ACCEPT)) CoolUtil.browserLoad(socialDatas[curSelected][0].getWebsite());
+			if (social1.underline && (!usingController ? FlxG.mouse.justPressed : controls.ACCEPT)) CoolUtil.browserLoad(socialDatas[curSelected][0].getWebsite());
 		}
 		if (social2 != null && social2.visible)
 		{
-			social2.underline = !controls.controllerMode ? FlxG.mouse.overlaps(social2) : controllerCursor.overlaps(social2);
+			social2.underline = !usingController ? FlxG.mouse.overlaps(social2) : controllerCursor.overlaps(social2);
 			social2.color = social2.underline ? 0xFFFFC857 : 0xFFEA2D1F;
-			if (social2.underline && (!controls.controllerMode ? FlxG.mouse.justPressed : controls.ACCEPT)) CoolUtil.browserLoad(socialDatas[curSelected][1].getWebsite());
+			if (social2.underline && (!usingController ? FlxG.mouse.justPressed : controls.ACCEPT)) CoolUtil.browserLoad(socialDatas[curSelected][1].getWebsite());
 		}
 
 		super.update(elapsed);

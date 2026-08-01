@@ -58,7 +58,7 @@ class ControlsSubState extends MusicBeatSubstate
 
 	var gamepadColor:FlxColor = 0xfffd7194;
 	var keyboardColor:FlxColor = 0xff7192fd;
-	var onKeyboardMode:Bool = !controls.controllerMode;
+	var onKeyboardMode:Bool = FlxG.gamepads.numActiveGamepads == 0;
 	
 	var controllerSpr:FlxSprite;
 	var typeChangeTxt:Alphabet;
@@ -108,11 +108,12 @@ class ControlsSubState extends MusicBeatSubstate
 		add(typeChangeTxt);
 
 		createTexts();
+		#if mobile addVirtualPad(LEFT_FULL, A_B_C); #end
 	}
 
 	inline function getTypeHint():String
 	{
-		final changeKeybinds:String = onKeyboardMode ? 'CTRL' : '${InputFormatter.getGamepadName(LEFT_SHOULDER)}/${InputFormatter.getGamepadName(RIGHT_SHOULDER)}';
+		final changeKeybinds:String = onKeyboardMode ? 'C' : '${InputFormatter.getGamepadName(LEFT_SHOULDER)}/${InputFormatter.getGamepadName(RIGHT_SHOULDER)}';
 		return Language.getPhrase('controls_switchMode', '{1} para mudar', [changeKeybinds]);
 	}
 
@@ -284,7 +285,7 @@ class ControlsSubState extends MusicBeatSubstate
 
 		if(!binding)
 		{
-			if(FlxG.keys.justPressed.ESCAPE || FlxG.gamepads.anyJustPressed(B))
+			if(FlxG.keys.justPressed.ESCAPE || FlxG.gamepads.anyJustPressed(B) #if mobile || virtualPad.buttonB.justPressed #end)
 			{
 				close();
 				return;
